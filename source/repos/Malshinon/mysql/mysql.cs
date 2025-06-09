@@ -26,3 +26,9 @@ namespace Malshinon.mysql
                 return connection;
             }
         }
+             public void CloseConn()
+        {
+            connection.Close();
+        }
+    }
+}
