@@ -15,6 +15,14 @@ namespace Malshinon.mysql
         {
             try
             {
-                var conn = new MySqlConnection()
+                var conn = new MySqlConnection(connectionString);
+                connection = conn;
+                connection.Open();
+                return connection;
+            }
+            catch (MySqlException ex)
+            {
+                Console.WriteLine($"error{ex.Message}");
+                return connection;
             }
         }
