@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Malshinon.nodels
+namespace Malshinon.models
 {
     public class PersonModle
     {

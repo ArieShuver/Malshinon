@@ -5,13 +5,13 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using MySql.Data.MySqlClient;
-namespace Malshinon.mysql
+namespace Malshinon.models
 {
-    public class mysql
+    public class MysqlData
     {
-        static string connectionString = "Server=localhost;Database=Malshinon;User=rootPasswprd='';Port=3306;";
-        static MySqlConnection connection;
-        static MySqlConnection GetConnnection()
+        public string connectionString = "Server=localhost;Database=malshinon;User=root;Password='';";
+        public MySqlConnection connection;
+        public MySqlConnection GetConnnection()
         {
             try
             {
