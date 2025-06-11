@@ -94,7 +94,7 @@ namespace Malshinon.models
                 var Query = new MySqlCommand(@"INSERT INTO people (firstn_name,last_name,secret_code,type) VALUES (@firstnname,@lastname,@CodeGeneration,@type)", conn);
                 Query.Parameters.AddWithValue("@firstnname", firstnname);
                 Query.Parameters.AddWithValue("@lastname", lastname);
-                Query.Parameters.AddWithValue("@CodeGeneration",CodeName);
+                Query.Parameters.AddWithValue("@CodeGeneration", CodeName);
                 Query.Parameters.AddWithValue("@type", type);
                 Query.ExecuteNonQuery();
 
@@ -120,59 +120,25 @@ namespace Malshinon.models
             finally
             {
                 Mysql.CloseConn();
-        
+
             }
             return Id;
         }
 
 
 
-        public int UpdateNuReports(string CodeName)
-        {
-            int Id = -1;
-            try
-            {
-               
-                MySqlConnection conn = Mysql.GetConnnection();
-                var Query = new MySqlCommand(@"UPDATE people SET num_reports = num_reports+1 WHERE secret_code =@CodeName  ", conn);
-                Query.Parameters.AddWithValue("@CodeName", CodeName);
-                Query.ExecuteNonQuery();
-
-                ReturnId(CodeName);
-            }
-            
-            
-            catch (Exception ex)
-            {
-                Console.WriteLine("error" + ex.Message);
-                
-                
-            }
-
-            finally
-            {
-                Mysql.CloseConn();
-                
-            }
-            return Id;
-
-        }
-
-
-
-
-        public int UpdateNumMentions(string CodeName)
+        public void UpdateReports(int CodeName)
         {
             int Id = -1;
             try
             {
 
                 MySqlConnection conn = Mysql.GetConnnection();
-                var Query = new MySqlCommand(@"UPDATE people SET num_reports = num_reports+1 WHERE secret_code =@CodeName  ", conn);
+                var Query = new MySqlCommand(@"UPDATE people SET num_reports = num_reports+1 WHERE id =@CodeName  ", conn);
                 Query.Parameters.AddWithValue("@CodeName", CodeName);
                 Query.ExecuteNonQuery();
 
-                ReturnId(CodeName);
+                //ReturnId(CodeName);
             }
 
 
@@ -188,7 +154,41 @@ namespace Malshinon.models
                 Mysql.CloseConn();
 
             }
-            return Id;
+            //return Id;
+
+        }
+
+
+
+
+        public void UpdateMentions(int CodeName)
+        {
+            int Id = -1;
+            try
+            {
+
+                MySqlConnection conn = Mysql.GetConnnection();
+                var Query = new MySqlCommand(@"UPDATE people SET num_mentions = num_mentions+1 WHERE id =@CodeName  ", conn);
+                Query.Parameters.AddWithValue("@CodeName", CodeName);
+                Query.ExecuteNonQuery();
+
+                //ReturnId(CodeName);
+            }
+
+
+            catch (Exception ex)
+            {
+                Console.WriteLine("error" + ex.Message);
+
+
+            }
+
+            finally
+            {
+                Mysql.CloseConn();
+
+            }
+            //return Id;
 
         }
 
@@ -209,7 +209,7 @@ namespace Malshinon.models
                 if (ReaderId.Read())
                 {
                     Id = ReaderId.GetInt32("id");
-                    
+
                 }
             }
             catch (Exception ex)
@@ -228,8 +228,94 @@ namespace Malshinon.models
         }
 
 
+
+
+
+
+
+        public string CheckStatus(int Id)
+        {
+            string Type = "";
+            try
+            {
+                MySqlConnection conn = Mysql.GetConnnection();
+                var Query = new MySqlCommand(@"SELECT type FROM people WHERE id = @Id", conn);
+                Query.Parameters.AddWithValue("@id", Id);
+
+                var raeder = Query.ExecuteReader();
+                if (raeder.Read())
+                {
+                    Type = raeder.GetString("type");
+                }
+            }
+            catch (Exception ex)
+            {
+
+                {
+                    Console.WriteLine("erorr" + ex.Message);
+                }
+            }
+            finally
+            {
+                Mysql.CloseConn();
+            }
+            return Type;
+        }
+
+
+
+
+
+        public void ChangeStatus(string type1, string type2, int id)
+        {
+            if (type1 != type2)
+            {
+                try
+                {
+                    MySqlConnection conn = Mysql.GetConnnection();
+                    var Query = new MySqlCommand("UPDATE people SET type = 'both' WHERE id = @Id", conn);
+                    Query.Parameters.AddWithValue("@id", id);
+                    Query.ExecuteNonQuery();
+
+
+
+                }
+                catch (Exception ex)
+                {
+
+                    {
+                        Console.WriteLine("erorr" + ex.Message);
+                    }
+                }
+                finally
+                {
+                    Mysql.CloseConn();
+                }
+            }
+
+        }
+       public void ChangeRank(int id)
+        {
+            MySqlConnection conn = Mysql.GetConnnection();
+            var Query = new MySqlCommand("SELECT num_reports FROM people WHERE id = @Id", conn);
+            Query.Parameters.AddWithValue("@id", id);
+            var reader = Query.ExecuteReader();
+            if (reader.Read())
+            {
+                int numRepurt = reader.GetInt32("num_reports");
+            if (numRepurt==20)
+                {
+                    var cmd = new MySqlCommand("UPDATE people SET type = 'agent_candidate' WHERE id = @Id", conn);
+                    cmd.Parameters.AddWithValue("@id", id);
+                    cmd.ExecuteNonQuery();
+
+                }
+            }
+
+        }
     }
 }
+
 
 //public void NameSearch(string CodeName) //חיפוש שם
 //{
