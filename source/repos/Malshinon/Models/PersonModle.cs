@@ -15,13 +15,17 @@ namespace Malshinon.models
         string Type { get; set; }
         int Num_reports { get; set; }
         int Num_mentions { get; set; }
-        public PersonModle(string firstName,string lastName, string secretCode)
+        public PersonModle(string firstName, string lastName, string secretCode)
         {
             Firstn_name = firstName;
             Last_name = lastName;
             Secret_code = secretCode;
             Type = null;
-            
+
         }
+
+
+
     }
 }
+

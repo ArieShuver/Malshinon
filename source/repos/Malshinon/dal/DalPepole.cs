@@ -303,15 +303,38 @@ namespace Malshinon.models
             if (reader.Read())
             {
                 int numRepurt = reader.GetInt32("num_reports");
-            if (numRepurt==20)
+            if (numRepurt>10)
                 {
-                    var cmd = new MySqlCommand("UPDATE people SET type = 'agent_candidate' WHERE id = @Id", conn);
+                    Mysql.CloseConn();
+                    MySqlConnection conn1 = Mysql.GetConnnection();
+
+                    var cmd = new MySqlCommand("UPDATE people SET type = 'agent_candidate' WHERE id = @Id", conn1);
                     cmd.Parameters.AddWithValue("@id", id);
                     cmd.ExecuteNonQuery();
+                   
+                }
+            }
+        }
+        public void PrintDanger(int id)
+        {
+            MySqlConnection conn = Mysql.GetConnnection();
+            var Query = new MySqlCommand("SELECT num_mentions FROM people WHERE id = @id", conn);
+            Query.Parameters.AddWithValue("@id", id);
+            var reader = Query.ExecuteReader();
+            if (reader.Read())
+            {
+                int numRepurt = reader.GetInt32("num_mentions");
+                if (numRepurt > 3)
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("danger");
+                    Console.ForegroundColor = ConsoleColor.White;
+
+                    Mysql.CloseConn();
+
 
                 }
             }
-
         }
     }
 }

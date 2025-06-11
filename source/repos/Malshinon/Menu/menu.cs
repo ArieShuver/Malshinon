@@ -28,7 +28,6 @@ namespace Malshinon.Menu
         {
             DalRepott dalRepott = new DalRepott(MySql);
 
-            bool examination = true;
 
             Console.WriteLine("Enter Code Name");
             string CodeName = Console.ReadLine();
@@ -36,10 +35,10 @@ namespace Malshinon.Menu
             string EnemyCode = Console.ReadLine();
             Console.WriteLine("Enter Text");
             string Text = Console.ReadLine();
-         
 
 
-           
+
+
             int ReportId;
             int TargetId;
             DalPepole dalPepole = new DalPepole(MySql);
@@ -47,14 +46,12 @@ namespace Malshinon.Menu
             {
                 ReportId = dalPepole.ReturnId(CodeName);
                 string typeReporter = dalPepole.CheckStatus(ReportId);
-
-                if (dalPepole.ChangeRank(ReportId)
-                    {
-                    
-                }
-)
                 dalPepole.ChangeStatus(typeReporter, "reporter", ReportId);
+                dalPepole.ChangeRank(ReportId);
+                
+
             }
+
             else
 
             {
@@ -62,26 +59,28 @@ namespace Malshinon.Menu
                 ReportId = dalPepole.AddName();
             }
 
-            if (dalPepole.FindeName(EnemyCode))
-            {
-                TargetId = dalPepole.ReturnId(EnemyCode);
+                if (dalPepole.FindeName(EnemyCode))
+                {
+                    TargetId = dalPepole.ReturnId(EnemyCode);
 
-                string typeTargt = dalPepole.CheckStatus(ReportId);
-                dalPepole.ChangeStatus(typeTargt, "target", TargetId);
+                    string typeTargt = dalPepole.CheckStatus(ReportId);
+                    dalPepole.ChangeStatus(typeTargt, "target", TargetId);
+                    dalPepole.PrintDanger(TargetId);
+                }
+
+                else
+                {
+                    Console.WriteLine("The code enemy is not found");
+                    TargetId = dalPepole.AddName("target");
+                }
+
+                dalRepott.EnteringInformation(ReportId, TargetId, Text);
+                dalPepole.UpdateReports(ReportId);
+                dalPepole.UpdateMentions(TargetId);
             }
 
-            else
-            {
-                Console.WriteLine("The code enemy is not found");
-                TargetId = dalPepole.AddName("target");
-            }
-
-            dalRepott.EnteringInformation(ReportId, TargetId, Text);
-            dalPepole.UpdateReports(ReportId);
-            dalPepole.UpdateMentions(TargetId);
         }
-
     }
-}
-    
+
+
 

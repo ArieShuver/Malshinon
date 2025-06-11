@@ -11,7 +11,7 @@ namespace Malshinon.models
         int id { get; set; }
         int Report_id { get; set; }
         int Target_id { get; set; }
-        string Text { get; set; }
+       public string Text { get;private set; }
         DateTime Timestamp { get; set; }
         public ReportModel(int report_id,int target_id,string text)
         {
