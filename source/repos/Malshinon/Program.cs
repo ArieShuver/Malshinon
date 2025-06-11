@@ -1,4 +1,5 @@
-﻿using Malshinon.models;
+﻿using Malshinon.dal;
+using Malshinon.models;
 using System;
 namespace DataBase
 
@@ -10,8 +11,10 @@ namespace DataBase
             MysqlData x = new MysqlData();
             x.GetConnnection();
             DalPepole d = new DalPepole(x);
+            DalRepott c = new DalRepott(x);
             //d.CodeGeneration("fff");
-            d.Report("dsd","reporter");
+            //d.UpdateNum_reports("d1346");
+            c.Report("m5225");
 
         }
     }

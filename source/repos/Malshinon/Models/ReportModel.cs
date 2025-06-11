@@ -9,12 +9,15 @@ namespace Malshinon.models
     public class ReportModel
     {
         int id { get; set; }
-        int report_id { get; set; }
-        int target_id { get; set; }
-        string text { get; set; }
-        DateTime timestamp { get; set; }
-        public ReportModel() 
+        int Report_id { get; set; }
+        int Target_id { get; set; }
+        string Text { get; set; }
+        DateTime Timestamp { get; set; }
+        public ReportModel(int report_id,int target_id,string text)
         {
+            Report_id = report_id;
+            Target_id = target_id;
+            Text = text;
         }
     }
 }
