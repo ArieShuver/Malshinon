@@ -16,8 +16,9 @@ namespace DataBase
             //d.CodeGeneration("fff");
             //d.UpdateNum_reports("d1346");
             Menu t = new Menu(x);
-            t.ReportingAgent();
-            
+            t.Switch();
+
+
         }
     }
 }

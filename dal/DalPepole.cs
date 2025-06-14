@@ -294,7 +294,7 @@ namespace Malshinon.models
             }
 
         }
-       public void ChangeRank(int id)
+        public void ChangeRank(int id)
         {
             MySqlConnection conn = Mysql.GetConnnection();
             var Query = new MySqlCommand("SELECT num_reports FROM people WHERE id = @Id", conn);
@@ -303,7 +303,7 @@ namespace Malshinon.models
             if (reader.Read())
             {
                 int numRepurt = reader.GetInt32("num_reports");
-            if (numRepurt>10)
+                if (numRepurt > 10)
                 {
                     Mysql.CloseConn();
                     MySqlConnection conn1 = Mysql.GetConnnection();
@@ -311,7 +311,7 @@ namespace Malshinon.models
                     var cmd = new MySqlCommand("UPDATE people SET type = 'agent_candidate' WHERE id = @Id", conn1);
                     cmd.Parameters.AddWithValue("@id", id);
                     cmd.ExecuteNonQuery();
-                   
+
                 }
             }
         }
@@ -336,28 +336,71 @@ namespace Malshinon.models
                 }
             }
         }
+        public void GetAllAgent() 
+        {
+            List<PersonModle> listAgent = new List<PersonModle>();
+
+            MySqlConnection conn = Mysql.GetConnnection();
+
+
+            var Query = new MySqlCommand("SELECT * FROM people WHERE type = 'agent_candidate'", conn);
+            var reader = Query.ExecuteReader();
+         
+
+            while (reader.Read())
+            {
+
+                string firstName = reader.GetString("firstn_name");
+                string lastName = reader.GetString("last_name");
+                string secretCode = reader.GetString("secret_code");
+                PersonModle Person = new PersonModle(firstName, lastName, secretCode);
+
+
+
+                listAgent.Add(Person);
+
+            }
+            foreach (var p in listAgent)
+            {
+
+                Console.WriteLine($"{p.GetFirsteName()} {p.GetLastName()}");
+            }
+        }
+
+        public void GetAllDangerous()
+        {
+            List<PersonModle> listDangerous = new List<PersonModle>();
+
+            MySqlConnection conn = Mysql.GetConnnection();
+
+
+            var Query = new MySqlCommand("SELECT * FROM people WHERE num_mentions > 20 ", conn);
+            var reader = Query.ExecuteReader();
+            reader.Read();
+
+            while (reader.Read())
+            {
+
+                string firstName = reader.GetString("firstn_name");
+                string lastName = reader.GetString("last_name");
+                string secretCode = reader.GetString("secret_code");
+                PersonModle Person = new PersonModle(firstName, lastName, secretCode);
+
+
+
+
+            }
+            foreach (var p in listDangerous)
+            {
+
+                Console.WriteLine($"{ p.GetFirsteName()} {p.GetLastName()}");
+            }
+        }
     }
 }
 
 
-//public void NameSearch(string CodeName) //חיפוש שם
-//{
-//    MySqlConnection conn = Mysql.GetConnnection();
 
-//    if (!ExaminationName(CodeName))
-//    {
-//        Console.WriteLine("The code name is not found");
-//    }
-//    try
-//    {
-//        var Query = new MySqlCommand("SELECT secret_code FROM people", conn);
-//        var reader = Query.ExecuteReader();
 
-//        while (reader.Read())
-//        {
-//            if (reader.GetString("secret_code") == CodeName)
-//            {
-//                List<string> list = new List<string>();
-//                list.Add();
-//            }
 
+  
