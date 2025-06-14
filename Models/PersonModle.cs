@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Google.Protobuf.WellKnownTypes;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace Malshinon.models
 {
@@ -24,8 +26,27 @@ namespace Malshinon.models
 
         }
 
+        public int GetId()
+        {
+            return Id;
+        }
+        public string GetFirsteName()
+        {
+            return Firstn_name;
+        }
+        public string GetLastName()
+        {
+            return Last_name;
+        }
+        public int GetNumReports()
+        {
+            return Num_reports;
 
-
+        }
+        public int GetNuMentions()
+        {
+            return Num_mentions;
+        }
     }
 }
 
